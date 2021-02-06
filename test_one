@@ -1,0 +1,72 @@
+import random
+
+rating = open("rating.txt", "r")
+name = input("Enter your name:")
+print("Hello,", name)
+rr=int(0)
+
+options = input().replace(",", " ")
+options_ready = options.split()
+if options == "":
+    print("Okay, let's start")
+    while True:
+        a = input()
+        options = ["rock", "paper", "scissors"]
+        b = random.choice(options)
+
+        for x in rating:
+                if x.split()[0] == name:
+                    rr = int(x.split()[1])
+
+        if a == "!exit":
+            print("Bye!")
+            break
+        elif a == "!rating":
+            print("Your ratig:", rr)
+
+        elif a not in options:
+            print("Invalid input")
+            continue
+        elif a == b:
+            print(f"There is a draw ({a})")
+            rr += 50
+            continue
+        elif a == "scissors" and b == "paper" or a == "rock" and b == "scissors" or a == "paper" and b =="rock":
+            print(f'Well done. The computer chose {b} and failed')
+            rr += 100
+            continue
+        elif a == "scissors" and b == "rock" or a == "rock" and b == "paper" or a == "paper" and b =="scissors":
+            print(f'Sorry, but the computer chose {b}')
+            continue
+else:
+    print("Okay, let's start")
+#rock,paper,scissors,lizard,spock
+    while True:
+        for x in rating:
+                if x.split()[0] == name:
+                    rr = int(x.split()[1])
+        players_choice = input()
+        computer_choice = random.choice(options_ready)
+        if players_choice == "!exit":
+            print("Bye!")
+            break
+        elif players_choice == "!rating":
+            print("Your ratig:", rr)
+            continue
+        elif players_choice not in options_ready:
+            print("Invalid input")
+            continue
+        elif players_choice == computer_choice:
+            print(f"There is a draw ({players_choice})")
+            rr += 50
+            continue
+        elif players_choice in options_ready:
+            choice_ind = options_ready.index(players_choice)
+            new_options = options_ready[(choice_ind+1):len(options_ready)] + options_ready[0:choice_ind]
+            win_options = new_options[0:int(len(new_options)/2)]
+            if computer_choice in win_options:
+                print(f'Sorry, but the computer chose {computer_choice}')
+            else:
+                print(f'Well done. The computer chose {computer_choice} and failed')
+                rr += 100
+            continue
